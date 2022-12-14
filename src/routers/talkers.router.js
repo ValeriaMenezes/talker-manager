@@ -11,11 +11,8 @@ talkerRouter.get('/talker', async (req, res) => {
 
 talkerRouter.get('/talker/:id', async (req, res) => {
   const { id } = req.params;
-
-    const talkers = await getAllTalkers();
-    console.log(talkers);
-    
-    const filterById = talkers.find((talker) => talker.id === Number(id));
+  const talkers = await getAllTalkers();
+  const filterById = talkers.find((talker) => talker.id === Number(id));
     if (!filterById) {
       return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
     }
