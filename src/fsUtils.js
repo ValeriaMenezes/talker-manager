@@ -1,8 +1,6 @@
 const fs = require('fs').promises;
 const { join } = require('path');
 
-// const pathJSON = path.resolve(__dirname, './talker.json');
-
 const readFile = async () => {
   try {
     const readTalkers = await fs.readFile(join(__dirname, './talker.json'), 'utf-8');
