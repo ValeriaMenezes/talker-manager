@@ -43,8 +43,17 @@ const editTalker = async (talkerId, info) => {
   return allTalkers[index];
 };
 
+const deleteTalker = async (talkerId) => {
+  const allTalkers = await readFile();
+  const deleteT = allTalkers.filter((talker) => talker.id === talkerId);
+
+ await fs.writeFile(join(__dirname, './talker.json'), JSON.stringify(deleteT, null, 2));
+ return null;
+};
+
 module.exports = {
   getAllTalkers,
   writeFile,
   editTalker,
+  deleteTalker,
 };

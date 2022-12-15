@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { getAllTalkers, writeFile, editTalker } = require('../fsUtils');
+const { getAllTalkers, writeFile, editTalker, deleteTalker } = require('../fsUtils');
 
 const talkerRouter = express.Router();
 
@@ -49,6 +49,12 @@ talkerRouter.put('/talker/:id',
     const { id } = req.params;
     const edited = await editTalker(id, req.body);
     return res.status(200).json(edited);
+});
+
+talkerRouter.delete('/talker/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  await deleteTalker(id);
+  return res.status(204).end();
 });
 
 module.exports = talkerRouter;
