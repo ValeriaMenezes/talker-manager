@@ -1,8 +1,15 @@
 const express = require('express');
 
-const { getAllTalkers } = require('../fsUtils');
+const { getAllTalkers, writeFile } = require('../fsUtils');
 
 const talkerRouter = express.Router();
+
+const validateToken = require('../middlewares/talker/validateToken');
+const validateName = require('../middlewares/talker/validateName');
+const validateAge = require('../middlewares/talker/validateAge');
+const validateTalk = require('../middlewares/talker/validateTalk');
+const validateWatchedAt = require('../middlewares/talker/validateWatchedAt');
+const validateRate = require('../middlewares/talker/validateRate');
 
 talkerRouter.get('/talker', async (req, res) => {
   const talkers = await getAllTalkers();
@@ -17,6 +24,18 @@ talkerRouter.get('/talker/:id', async (req, res) => {
       return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
     }
     return res.status(200).json(filterById);
+});
+
+talkerRouter.post('/talker',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+  async (req, res) => {
+  const addNewTalker = await writeFile(req.body);
+  return res.status(201).json(addNewTalker);
 });
 
 module.exports = talkerRouter;
