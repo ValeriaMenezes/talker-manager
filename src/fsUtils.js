@@ -1,7 +1,5 @@
 const fs = require('fs').promises;
 const { join } = require('path');
-// const { path } = require('path');
-// const { all } = require('./routers/talkers.router');
 
 // const pathJSON = path.resolve(__dirname, './talker.json');
 
@@ -31,7 +29,22 @@ const writeFile = async (req) => {
   return newTalker;
 };
 
+const editTalker = async (talkerId, info) => {
+  const allTalkers = await readFile();
+  const index = allTalkers.findIndex((talker) => talker.id === Number(talkerId));
+
+  allTalkers[index] = {
+    id: Number(talkerId),
+    ...info,
+  };
+
+  await fs.writeFile(join(__dirname, './talker.json'), JSON.stringify(allTalkers, null, 2));
+
+  return allTalkers[index];
+};
+
 module.exports = {
   getAllTalkers,
   writeFile,
+  editTalker,
 };
