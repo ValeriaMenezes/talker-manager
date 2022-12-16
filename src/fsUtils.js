@@ -47,8 +47,14 @@ const deleteTalker = async (talkerId) => {
   const allTalkers = await readFile();
   const deleteT = allTalkers.filter((talker) => talker.id === talkerId);
 
- await fs.writeFile(join(__dirname, './talker.json'), JSON.stringify(deleteT, null, 2));
- return null;
+  await fs.writeFile(join(__dirname, './talker.json'), JSON.stringify(deleteT, null, 2));
+  return null;
+};
+
+const querySearch = async (query) => {
+  const allTalkers = await readFile();
+  const searchTalker = await allTalkers.filter((talker) => talker.name.includes(query));
+  return searchTalker;
 };
 
 module.exports = {
@@ -56,4 +62,5 @@ module.exports = {
   writeFile,
   editTalker,
   deleteTalker,
+  querySearch,
 };
